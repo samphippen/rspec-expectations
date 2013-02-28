@@ -58,7 +58,7 @@ module RSpec
       def diffably_stringify(array)
         array.map do |entry|
           if Array === entry
-            entry.to_s
+            entry.inspect
           else
             entry.to_s.gsub("\n", "\\n")
           end
