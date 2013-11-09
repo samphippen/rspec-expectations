@@ -13,9 +13,9 @@ module RSpec
       describe '#diff_as_string' do
         subject { differ.diff_as_string(@expected, @actual) }
         it "outputs unified diff of two strings" do
-          @expected="foo\nbar\nzap\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nline\n"
-          @actual="foo\nzap\nbar\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nanother\nline\n"
-          expect(subject).to eql(<<-'EOD')
+          @expected = "foo\nbar\nzap\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nline\n"
+          @actual   = "foo\nzap\nbar\nthis\nis\nsoo\nvery\nvery\nequal\ninsert\na\nanother\nline\n"
+          expect(subject).to eq(<<-'EOD')
 
 
 @@ -1,6 +1,6 @@
