@@ -12,7 +12,7 @@ module RSpec::Expectations
     describe '#<<' do
       context 'with strings that can be converted to the target encoding' do
         it 'encodes and appends the string' do
-          valid_ascii_string = "abc"
+          valid_ascii_string = "abc".force_encoding("ASCII-8BIT")
           valid_unicode_string = "\xE2\x82\xAC".force_encoding('UTF-8')
 
           resulting_string = build_encoded_string(valid_unicode_string, target_encoding) << valid_ascii_string
@@ -22,7 +22,7 @@ module RSpec::Expectations
 
       context 'with a string that cannot be converted to the target encoding' do
         it 'replaces undefined characters' do
-          ascii_string = "\xAE".unpack("A").first
+          ascii_string = "\xAE".force_encoding("ASCII-8BIT")
           valid_unicode_string = "\xE2\x82\xAC".force_encoding('UTF-8')
 
           resulting_string = build_encoded_string(valid_unicode_string, target_encoding) << ascii_string
@@ -33,8 +33,8 @@ module RSpec::Expectations
 
       context 'with two ascii strings with a target encoding of UTF-8 ' do
         it 'has an encoding of UTF-8' do
-          ascii_string = 'abc'
-          other_ascii_string = '123'
+          ascii_string = 'abc'.force_encoding("ASCII-8BIT")
+          other_ascii_string = '123'.force_encoding("ASCII-8BIT")
 
           resulting_string = build_encoded_string(ascii_string, target_encoding) << other_ascii_string
           expect(resulting_string.encoding.to_s).to eq 'UTF-8'
@@ -44,10 +44,10 @@ module RSpec::Expectations
 
     describe '#split' do
       it 'splits the string based on the delimiter accounting for encoding' do
-        wrapped_string = "aaaaaaaaaaa\xAEaaaaa"
+        wrapped_string = "aaaaaaaaaaa\xAEaaaaa".force_encoding("ASCII-8BIT")
 
         expect {
-          build_encoded_string(wrapped_string, target_encoding).split("\xE2\x82\xAC")
+          build_encoded_string(wrapped_string, target_encoding).split("\xE2\x82\xAC".force_encoding("UTF-8"))
         }.not_to raise_error
       end
     end
