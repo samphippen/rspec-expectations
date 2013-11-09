@@ -180,4 +180,3 @@ module RSpec
     end
   end
 end
-
